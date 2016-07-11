@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.benwong.udacityinventory.DetailActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Product Title"
+        android:id="@+id/productTV"
+        android:layout_alignParentTop="true" android:layout_alignLeft="@+id/currentQuantTV"
+        android:layout_alignStart="@+id/currentQuantTV"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_marginTop="91dp"
+        android:hint="Enter Quantity Change"
+        android:layout_below="@+id/productTV" android:layout_alignRight="@+id/productTV"
+        android:layout_alignEnd="@+id/productTV"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Current Quantity"
+        android:id="@+id/currentQuantTV"
+        android:layout_below="@+id/productTV" android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Quantity"
+        android:id="@+id/editQuantBtn"
+        android:layout_alignBottom="@+id/editText"
+        android:layout_toEndOf="@+id/productTV" android:layout_toRightOf="@+id/productTV"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Product"
+        android:id="@+id/deleteProductBtn" android:layout_below="@+id/editText"
+        android:layout_toRightOf="@+id/editText" android:layout_toEndOf="@+id/editText"
+        android:layout_marginTop="25dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Product"
+        android:id="@+id/orderBtn" android:layout_alignTop="@+id/deleteProductBtn"
+        android:layout_alignRight="@+id/editText" android:layout_alignEnd="@+id/editText"/>
+</RelativeLayout>

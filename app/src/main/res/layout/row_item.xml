@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+        <TextView
+            android:id="@+id/tvProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/saleBtn" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignParentTop="true"
+            android:gravity="center_vertical" android:text="Product"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvProduct" android:layout_toLeftOf="@+id/tvQuantity"
+            android:layout_toStartOf="@+id/tvQuantity" android:layout_alignParentTop="true"
+            android:gravity="center_vertical" android:text="Price"
+            android:layout_marginLeft="30dp" android:layout_marginRight="20dp"/>
+
+        <TextView android:id="@+id/tvQuantity" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toLeftOf="@+id/saleBtn"
+                  android:layout_toStartOf="@+id/saleBtn" android:layout_alignBottom="@+id/saleBtn"
+                  android:layout_alignParentTop="true" android:gravity="center_vertical"
+                  android:text="Quantity" android:layout_marginRight="30dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sale"
+            android:id="@+id/saleBtn"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
