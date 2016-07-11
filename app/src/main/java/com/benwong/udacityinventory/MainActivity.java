@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView inventoryListView;
     private ArrayAdapter<String> arrayAdapter;
 
-    private InventoryRowAdapter mInventoryRowAdapter;
-    private InventoryDbHelper mHelper;
+    public static InventoryRowAdapter mInventoryRowAdapter;
+    public static InventoryDbHelper mHelper;
     private Button deleteTable;
 
     @Override
@@ -125,17 +125,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getFromDB() {
+    public static void getFromDB() {
         inventoryList.clear();
         inventoryListName.clear();
-        try {
 
-            mHelper.read();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                mHelper.read();
+
+
+
+
         System.out.println("finished reading from getFromDB");
-        mInventoryRowAdapter.notifyDataSetChanged();
+
+
+            mInventoryRowAdapter.notifyDataSetChanged();
+
+
     }
 }

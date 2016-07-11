@@ -69,46 +69,47 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     }
 
-//    public void update(int position){
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        System.out.println("Update method habit name " + MainActivity.inventoryListName.get(position).toString());
-//        Cursor c = db.rawQuery("SELECT * FROM habits WHERE habit = " + "'" + MainActivity.inventoryListName.get(position).toString() + "'" , null);
-//
-//        try {
-//            int habitIndex = c.getColumnIndex(InventoryContract.HabitEntry.COL_TASK_HABIT_NAME);
-//            int frequencyIndex = c.getColumnIndex(InventoryContract.HabitEntry.COL_TASK_HABIT_FREQ);
-//
-//
-//            if(c != null && c.moveToFirst()){
-//                do{
-//                    System.out.println("Update method " + c.getString(habitIndex));
-//                    System.out.println("Update method " + Integer.toString(c.getInt(frequencyIndex)));
-//                    int updatedFreq = c.getInt(frequencyIndex) + 1;
-//                    System.out.println("Updated freq " +  updatedFreq);
-////                    String updateScript = "UPDATE " + HabitContract.HabitEntry.TABLE + " SET " + HabitContract.HabitEntry.COL_TASK_HABIT_FREQ  +" = " + updatedFreq + " WHERE " + HabitContract.HabitEntry.COL_TASK_HABIT_NAME +  " = "  + "'" +  c.getString(habitIndex)  + "'";
-////                    System.out.println(updateScript);
-////                    db.execSQL(updateScript);
-//
-//                    ContentValues values = new ContentValues();
-//                    values.put(InventoryContract.HabitEntry.COL_TASK_HABIT_NAME, c.getString(habitIndex));
-//                    values.put(InventoryContract.HabitEntry.COL_TASK_HABIT_FREQ, updatedFreq);
-//
-//
-//                    db.update(InventoryContract.HabitEntry.TABLE, values, InventoryContract.HabitEntry.COL_TASK_HABIT_NAME + " = ?",
-//                            new String[] { String.valueOf(c.getString(habitIndex)) });
-//
-////                    System.out.println("UPDATE habits SET" + " frequency = " + updatedFreq + " WHERE habit = "  + "'" +  c.getString(habitIndex)  + "'");
-//
-//                } while(c.moveToNext());
-//            }
-//
-//            c.close();
-//        } catch(Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    public void updateSale(String productName){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        System.out.println("Update method habit name " + productName);
+        Cursor c = db.rawQuery("SELECT * FROM "  + InventoryContract.InventoryEntry.TABLE +" WHERE " +  InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'" , null);
+
+        try {
+            int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
+            int quantityIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY);
+            int priceIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE);
+
+            if(c != null && c.moveToFirst()){
+                do{
+                    System.out.println("Update method " + c.getString(productIndex));
+                    System.out.println("Update method " + Integer.toString(c.getInt(quantityIndex)));
+                    int updatedFreq = c.getInt(quantityIndex) - 1;
+                    System.out.println("Updated freq " +  updatedFreq);
+//                    String updateScript = "UPDATE " + HabitContract.HabitEntry.TABLE + " SET " + HabitContract.HabitEntry.COL_TASK_HABIT_FREQ  +" = " + updatedFreq + " WHERE " + HabitContract.HabitEntry.COL_TASK_HABIT_NAME +  " = "  + "'" +  c.getString(habitIndex)  + "'";
+//                    System.out.println(updateScript);
+//                    db.execSQL(updateScript);
+
+                    ContentValues values = new ContentValues();
+                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, c.getString(productIndex));
+                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE,  c.getString(priceIndex));
+                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY, updatedFreq);
+
+
+                    db.update(InventoryContract.InventoryEntry.TABLE, values, InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
+                            new String[] { String.valueOf(c.getString(productIndex)) });
+
+//                    System.out.println("UPDATE habits SET" + " frequency = " + updatedFreq + " WHERE habit = "  + "'" +  c.getString(habitIndex)  + "'");
+
+                } while(c.moveToNext());
+            }
+
+            c.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void read() {
         try {
