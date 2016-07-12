@@ -22,7 +22,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-
         String createTable = "CREATE TABLE IF NOT EXISTS " + InventoryContract.InventoryEntry.TABLE + " (" + InventoryContract
                 .InventoryEntry.COL_TASK_PRODUCT_NAME + " VARCHAR, " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE + " INT(10), " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY + " INT(10))";
         System.out.println("Create table " + createTable);
@@ -40,18 +39,13 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         this.deleteInventoriesDB();
     }
 
-
     public void deleteInventoriesDB() {
         String deleteScript = "delete from " + InventoryContract.InventoryEntry.TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(deleteScript);
-
-
     }
 
-
     public void insert(String habitName, int price, int quantity) {
-
 
         SQLiteDatabase db = this.getWritableDatabase();
         System.out.println("Habit name in DB Helper " + habitName);
@@ -67,7 +61,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 SQLiteDatabase.CONFLICT_REPLACE);
 
         db.close(); // Closing database connection
-
     }
 
     public void updateSale(String productName, int quantityChange) {
@@ -88,9 +81,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                     System.out.println("Update method " + Integer.toString(c.getInt(quantityIndex)));
                     int updatedQuantity = c.getInt(quantityIndex) + quantityChange;
                     System.out.println("Updated quantity " + updatedQuantity);
-//                    String updateScript = "UPDATE " + HabitContract.HabitEntry.TABLE + " SET " + HabitContract.HabitEntry.COL_TASK_HABIT_FREQ  +" = " + updatedFreq + " WHERE " + HabitContract.HabitEntry.COL_TASK_HABIT_NAME +  " = "  + "'" +  c.getString(habitIndex)  + "'";
-//                    System.out.println(updateScript);
-//                    db.execSQL(updateScript);
                     if (updatedQuantity > 0) {
                         ContentValues values = new ContentValues();
                         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, c.getString(productIndex));
@@ -100,10 +90,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                         db.update(InventoryContract.InventoryEntry.TABLE, values, InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
                                 new String[]{String.valueOf(c.getString(productIndex))});
                     }
-
-
-//                    System.out.println("UPDATE habits SET" + " frequency = " + updatedFreq + " WHERE habit = "  + "'" +  c.getString(habitIndex)  + "'");
-
                 } while (c.moveToNext());
             }
 
@@ -119,11 +105,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             String queryString = "SELECT * FROM " + InventoryContract.InventoryEntry.TABLE;
-
-//            myDatabase.execSQL("INSERT INTO habits (habit, frequency) VALUES ('Do homework', 1)");
-//
-//            myDatabase.execSQL("INSERT INTO habits (habit, frequency) VALUES ('Clean car', 1)");
-
             Cursor c = db.rawQuery(queryString, null);
 
             int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
@@ -153,7 +134,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-
     public void readSingleProduct(String productName) {
 
         try {
@@ -173,7 +153,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                     System.out.println("READ single quantity " + Integer.toString(c.getInt(quantityIndex)));
                     String singleProduct = c.getString(productIndex) + " : " + Integer.toString(c.getInt(priceIndex)) + " - " + Integer.toString(c.getInt(quantityIndex));
 
-
                     int updatedQuantity = Integer.parseInt(String.valueOf(c.getInt(quantityIndex)));
 
                     DetailActivity.quantityTV.setText("Current Quantity: " + String.valueOf(updatedQuantity));
@@ -186,7 +165,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void deleteProduct(String productName) {

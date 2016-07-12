@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.benwong.udacityinventory.db.InventoryDbHelper;
 
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         mInventoryRowAdapter = new InventoryRowAdapter(this, inventoryList);
 
         inventoryListView = (ListView) findViewById(R.id.inventoryListView);
-
-
         productNameTF = (EditText) findViewById(R.id.productNameTF);
         productPriceTF = (EditText) findViewById(R.id.productPriceTF);
         productQuantTF = (EditText) findViewById(R.id.productQuantTF);
@@ -55,14 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         mHelper = new InventoryDbHelper(this);
 
-//        myDatabase = this.openOrCreateDatabase("Habits", MODE_PRIVATE, null);
-
-//        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, inventoryList);
-
         inventoryList.clear();
         inventoryListName.clear();
         getFromDB();
-
 
         for (Inventory x : inventoryList) {
             System.out.println("Loop " + x.getProduct());
@@ -73,18 +67,22 @@ public class MainActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String productName = productNameTF.getText().toString();
-                int productPrice = Integer.parseInt(productPriceTF.getText().toString());
-                int productQuantity = Integer.parseInt(productQuantTF.getText().toString());
 
+                if(productNameTF.getText().toString().equals("") || productPriceTF.getText().toString().equals("") || productQuantTF.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
 
-                mHelper.insert(productName, productPrice, productQuantity);
-                getFromDB();
-                mInventoryRowAdapter.notifyDataSetChanged();
+                }else {
+                    String productName = productNameTF.getText().toString();
+                    int productPrice = Integer.parseInt(productPriceTF.getText().toString());
+                    int productQuantity = Integer.parseInt(productQuantTF.getText().toString());
+                    mHelper.insert(productName, productPrice, productQuantity);
+                    getFromDB();
+                    mInventoryRowAdapter.notifyDataSetChanged();
 
-                productNameTF.setText("");
-                productPriceTF.setText("");
-                productQuantTF.setText("");
+                    productNameTF.setText("");
+                    productPriceTF.setText("");
+                    productQuantTF.setText("");
+                }
             }
         });
 
@@ -96,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 mHelper.deleteInventoriesDB();
                 getFromDB();
                 mInventoryRowAdapter.notifyDataSetChanged();
-
             }
         });
 
@@ -105,38 +102,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                 Intent i = new Intent(getApplicationContext(), DetailActivity.class);
                 i.putExtra("Product", inventoryList.get(position).getProduct());
                 i.putExtra("Quantity", inventoryList.get(position).getQuantity());
                 startActivity(i);
 
                 System.out.println(position);
-
                 System.out.println(inventoryList.get(position).getProduct());
                 System.out.println(inventoryList.get(position).getPrice());
                 System.out.println(inventoryList.get(position).getQuantity());
-//                mHelper.update(position);
-//
-//                getFromDB();
 
             }
         });
-
-
     }
 
     public static void getFromDB() {
         inventoryList.clear();
         inventoryListName.clear();
 
-
         mHelper.read();
-
-
         System.out.println("finished reading from getFromDB");
-
-
         mInventoryRowAdapter.notifyDataSetChanged();
 
         if (inventoryList.isEmpty()) {

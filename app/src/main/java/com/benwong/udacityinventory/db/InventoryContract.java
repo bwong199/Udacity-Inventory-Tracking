@@ -11,7 +11,6 @@ public class InventoryContract {
 
     public class InventoryEntry implements BaseColumns {
         public static final String TABLE = "inventories";
-
         public static final String COL_TASK_PRODUCT_NAME = "product";
         public static final String COL_TASK_PRODUCT_PRICE = "price";
         public static final String COL_TASK_PRODUCT_QUANTITY = "quantity";

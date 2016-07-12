@@ -55,17 +55,13 @@ public class InventoryRowAdapter extends ArrayAdapter<Inventory> {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             });
 
-            // Populate the data into the template view using the data object
             tvProduct.setText(inventoryItem.getProduct());
-            tvPrice.setText(String.valueOf(inventoryItem.getPrice()));
+            tvPrice.setText("$" + String.valueOf(inventoryItem.getPrice()));
             tvQuantity.setText(String.valueOf(inventoryItem.getQuantity()));
-            // Return the completed view to render on screen
         }
-
 
         return convertView;
     }

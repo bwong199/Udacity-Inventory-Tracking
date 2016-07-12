@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.benwong.udacityinventory.db.InventoryDbHelper;
 
@@ -44,7 +45,6 @@ public class DetailActivity extends AppCompatActivity {
 
         productName = extras.getString("Product");
         productQuantity = extras.getInt("Quantity");
-
         productTV.setText(productName);
         quantityTV.setText("Current Quantity: " + String.valueOf(productQuantity));
 
@@ -53,21 +53,25 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String quantityChange = quantityChangeText.getText().toString();
-                System.out.println(quantityChange);
-                quantityChangeText.setText("");
 
-                mHelper = new InventoryDbHelper(getApplicationContext());
+                if(quantityChange.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please fill in the quantity change value ", Toast.LENGTH_SHORT).show();
+                } else {
+                    System.out.println(quantityChange);
+                    quantityChangeText.setText("");
 
-                mHelper.updateSale(productName, Integer.parseInt(quantityChange));
+                    mHelper = new InventoryDbHelper(getApplicationContext());
 
-                try {
-                    mHelper.readSingleProduct(productName);
+                    mHelper.updateSale(productName, Integer.parseInt(quantityChange));
 
-                    MainActivity.getFromDB();
+                    try {
+                        mHelper.readSingleProduct(productName);
 
+                        MainActivity.getFromDB();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -79,7 +83,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 String subject = "Ordering new supply " + productName;
                 String message = "Ordering supply for " + productName;
-
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{
                         "mail--id"});
@@ -99,7 +102,6 @@ public class DetailActivity extends AppCompatActivity {
                 mHelper = new InventoryDbHelper(getApplicationContext());
                 mHelper.deleteProduct(productName);
                 MainActivity.getFromDB();
-
             }
         });
 
