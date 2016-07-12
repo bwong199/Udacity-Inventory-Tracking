@@ -24,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     private String productName;
     private int productQuantity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +37,18 @@ public class DetailActivity extends AppCompatActivity {
         editQuantityBtn = (Button) findViewById(R.id.editQuantBtn);
         deleteProductBtn = (Button) findViewById(R.id.deleteProductBtn);
 
+
         orderBtn = (Button) findViewById(R.id.orderBtn);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             return;
+        } else {
+            productName = extras.getString("Product");
+            productQuantity = extras.getInt("Quantity");
+
         }
 
-        productName = extras.getString("Product");
-        productQuantity = extras.getInt("Quantity");
         productTV.setText(productName);
         quantityTV.setText("Current Quantity: " + String.valueOf(productQuantity));
 

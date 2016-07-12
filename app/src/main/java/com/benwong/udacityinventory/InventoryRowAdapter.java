@@ -1,11 +1,15 @@
 package com.benwong.udacityinventory;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.benwong.udacityinventory.db.InventoryDbHelper;
@@ -37,6 +41,7 @@ public class InventoryRowAdapter extends ArrayAdapter<Inventory> {
             TextView tvProduct = (TextView) convertView.findViewById(R.id.tvProduct);
             TextView tvPrice = (TextView) convertView.findViewById(R.id.tvPrice);
             TextView tvQuantity = (TextView) convertView.findViewById(R.id.tvQuantity);
+            ImageView productImageView = (ImageView)convertView.findViewById(R.id.productImage);
             final Button saleButton = (Button) convertView.findViewById(R.id.saleBtn);
 
             saleButton.setFocusable(false);
@@ -61,6 +66,11 @@ public class InventoryRowAdapter extends ArrayAdapter<Inventory> {
             tvProduct.setText(inventoryItem.getProduct());
             tvPrice.setText("$" + String.valueOf(inventoryItem.getPrice()));
             tvQuantity.setText(String.valueOf(inventoryItem.getQuantity()));
+
+            byte[] imageAsBytes = Base64.decode(inventoryItem.getImage(), Base64.DEFAULT);
+            Bitmap bmp = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+
+            productImageView.setImageBitmap(bmp);
         }
 
         return convertView;

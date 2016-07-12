@@ -62,4 +62,10 @@
         android:text="Enter product info and press ENTER PRODUCT to populate database."
         android:id="@+id/instructionsTV" android:layout_below="@+id/submitBtn"
         android:layout_centerHorizontal="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attach Image"
+        android:id="@+id/attachImgBtn" android:layout_below="@+id/productPriceTF"
+        android:layout_toLeftOf="@+id/submitBtn" android:layout_toStartOf="@+id/submitBtn"/>
 </RelativeLayout>

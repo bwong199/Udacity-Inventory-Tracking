@@ -14,5 +14,6 @@ public class InventoryContract {
         public static final String COL_TASK_PRODUCT_NAME = "product";
         public static final String COL_TASK_PRODUCT_PRICE = "price";
         public static final String COL_TASK_PRODUCT_QUANTITY = "quantity";
+        public static final String COL_TASK_PRODUCT_IMAGE = "image";
     }
 }

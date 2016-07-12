@@ -7,6 +7,7 @@ public class Inventory {
     private String product;
     private int price;
     private int quantity;
+    private String image;
 
     public Inventory() {
     }
@@ -39,5 +40,13 @@ public class Inventory {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

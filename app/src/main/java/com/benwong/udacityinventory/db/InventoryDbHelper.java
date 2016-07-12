@@ -23,7 +23,8 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String createTable = "CREATE TABLE IF NOT EXISTS " + InventoryContract.InventoryEntry.TABLE + " (" + InventoryContract
-                .InventoryEntry.COL_TASK_PRODUCT_NAME + " VARCHAR, " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE + " INT(10), " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY + " INT(10))";
+                .InventoryEntry.COL_TASK_PRODUCT_NAME + " VARCHAR, " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE + " INT(10), " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_IMAGE + " BLOB, " +
+InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY + " INT(10))";
         System.out.println("Create table " + createTable);
         db.execSQL(createTable);
     }
@@ -45,7 +46,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         db.execSQL(deleteScript);
     }
 
-    public void insert(String habitName, int price, int quantity) {
+    public void insert(String habitName, int price, int quantity, String image) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         System.out.println("Habit name in DB Helper " + habitName);
@@ -54,6 +55,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, habitName);
         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE, price);
         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY, quantity);
+        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_IMAGE, image);
 
         db.insertWithOnConflict(InventoryContract.InventoryEntry.TABLE,
                 null,
@@ -110,18 +112,21 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
             int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
             int priceIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE);
             int quantityIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY);
+            int imageIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_IMAGE);
 
             if (c != null && c.moveToFirst()) {
                 do {
                     System.out.println("READ product " + c.getString(productIndex));
                     System.out.println("READ price " + Integer.toString(c.getInt(priceIndex)));
                     System.out.println("READ quantity " + Integer.toString(c.getInt(quantityIndex)));
+                    System.out.println("READ image " + c.getString(imageIndex));
                     String singleProduct = c.getString(productIndex) + " : " + Integer.toString(c.getInt(priceIndex)) + " - " + Integer.toString(c.getInt(quantityIndex));
 
                     Inventory eachProduct = new Inventory();
                     eachProduct.setProduct(c.getString(productIndex));
                     eachProduct.setPrice(c.getInt(priceIndex));
                     eachProduct.setQuantity(c.getInt(quantityIndex));
+                    eachProduct.setImage(c.getString(imageIndex));
 
                     MainActivity.inventoryListName.add(eachProduct.getProduct());
                     MainActivity.inventoryList.add(eachProduct);
