@@ -52,7 +52,7 @@ public class InventoryRowAdapter extends ArrayAdapter<Inventory> {
                     try {
                         MainActivity.getFromDB();
 
-                    }catch(Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.benwong.udacityinventory.db.InventoryDbHelper;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText productNameTF;
     private EditText productPriceTF;
     private EditText productQuantTF;
+    public static TextView instructionsTV;
 
     private Button submitBtn;
     private SQLiteDatabase myDatabase;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         productPriceTF = (EditText) findViewById(R.id.productPriceTF);
         productQuantTF = (EditText) findViewById(R.id.productQuantTF);
 
+        instructionsTV = (TextView) findViewById(R.id.instructionsTV);
+
         submitBtn = (Button) findViewById(R.id.submitBtn);
         deleteTable = (Button) findViewById(R.id.deleteTable);
 
@@ -59,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         inventoryListName.clear();
         getFromDB();
 
-        for(Inventory x: inventoryList){
+
+        for (Inventory x : inventoryList) {
             System.out.println("Loop " + x.getProduct());
         }
 
@@ -69,13 +74,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String productName = productNameTF.getText().toString();
-                int productPrice =  Integer.parseInt(productPriceTF.getText().toString());
-                int productQuantity =  Integer.parseInt(productQuantTF.getText().toString());
+                int productPrice = Integer.parseInt(productPriceTF.getText().toString());
+                int productQuantity = Integer.parseInt(productQuantTF.getText().toString());
 
-
-                System.out.println(productName);
-                System.out.println(productPrice);
-                System.out.println(productQuantity);
 
                 mHelper.insert(productName, productPrice, productQuantity);
                 getFromDB();
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(getApplicationContext(), DetailActivity.class);
                 i.putExtra("Product", inventoryList.get(position).getProduct());
-                i.putExtra("Quantity",inventoryList.get(position).getQuantity());
+                i.putExtra("Quantity", inventoryList.get(position).getQuantity());
                 startActivity(i);
 
                 System.out.println(position);
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public static void getFromDB() {
@@ -131,16 +131,18 @@ public class MainActivity extends AppCompatActivity {
         inventoryListName.clear();
 
 
-                mHelper.read();
-
-
+        mHelper.read();
 
 
         System.out.println("finished reading from getFromDB");
 
 
-            mInventoryRowAdapter.notifyDataSetChanged();
+        mInventoryRowAdapter.notifyDataSetChanged();
 
-
+        if (inventoryList.isEmpty()) {
+            instructionsTV.setVisibility(View.VISIBLE);
+        } else {
+            instructionsTV.setVisibility(View.INVISIBLE);
+        }
     }
 }

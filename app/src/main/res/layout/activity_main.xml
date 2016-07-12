@@ -54,4 +54,11 @@
         android:layout_alignEnd="@+id/deleteTable"
         android:layout_below="@+id/productNameTF" android:gravity="bottom"
         android:hint="Product Quantity"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Enter product info and press ENTER PRODUCT to populate database."
+        android:id="@+id/instructionsTV" android:layout_below="@+id/submitBtn"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

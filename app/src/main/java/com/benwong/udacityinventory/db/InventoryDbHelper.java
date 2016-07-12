@@ -70,46 +70,45 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateSale(String productName, int quantityChange){
+    public void updateSale(String productName, int quantityChange) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         System.out.println("Update method habit name " + productName);
-        Cursor c = db.rawQuery("SELECT * FROM "  + InventoryContract.InventoryEntry.TABLE +" WHERE " +  InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'" , null);
+        Cursor c = db.rawQuery("SELECT * FROM " + InventoryContract.InventoryEntry.TABLE + " WHERE " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'", null);
 
         try {
             int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
             int quantityIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY);
             int priceIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE);
 
-            if(c != null && c.moveToFirst()){
-                do{
+            if (c != null && c.moveToFirst()) {
+                do {
                     System.out.println("Update method " + c.getString(productIndex));
                     System.out.println("Update method " + Integer.toString(c.getInt(quantityIndex)));
                     int updatedQuantity = c.getInt(quantityIndex) + quantityChange;
-                    System.out.println("Updated quantity " +  updatedQuantity);
+                    System.out.println("Updated quantity " + updatedQuantity);
 //                    String updateScript = "UPDATE " + HabitContract.HabitEntry.TABLE + " SET " + HabitContract.HabitEntry.COL_TASK_HABIT_FREQ  +" = " + updatedFreq + " WHERE " + HabitContract.HabitEntry.COL_TASK_HABIT_NAME +  " = "  + "'" +  c.getString(habitIndex)  + "'";
 //                    System.out.println(updateScript);
 //                    db.execSQL(updateScript);
-                    if(c.getInt(quantityIndex) > 0){
+                    if (updatedQuantity > 0) {
                         ContentValues values = new ContentValues();
                         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, c.getString(productIndex));
-                        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE,  c.getString(priceIndex));
+                        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE, c.getString(priceIndex));
                         values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY, updatedQuantity);
 
                         db.update(InventoryContract.InventoryEntry.TABLE, values, InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
-                                new String[] { String.valueOf(c.getString(productIndex)) });
+                                new String[]{String.valueOf(c.getString(productIndex))});
                     }
-
 
 
 //                    System.out.println("UPDATE habits SET" + " frequency = " + updatedFreq + " WHERE habit = "  + "'" +  c.getString(habitIndex)  + "'");
 
-                } while(c.moveToNext());
+                } while (c.moveToNext());
             }
 
             c.close();
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -155,13 +154,13 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void readSingleProduct(String productName){
+    public void readSingleProduct(String productName) {
 
-        try{
+        try {
             SQLiteDatabase db = this.getWritableDatabase();
 
             System.out.println("Update method habit name " + productName);
-            Cursor c = db.rawQuery("SELECT * FROM "  + InventoryContract.InventoryEntry.TABLE +" WHERE " +  InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'" , null);
+            Cursor c = db.rawQuery("SELECT * FROM " + InventoryContract.InventoryEntry.TABLE + " WHERE " + InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'", null);
 
             int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
             int priceIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE);
@@ -177,17 +176,24 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
                     int updatedQuantity = Integer.parseInt(String.valueOf(c.getInt(quantityIndex)));
 
-                    DetailActivity.quantityTV.setText(String.valueOf(updatedQuantity));
+                    DetailActivity.quantityTV.setText("Current Quantity: " + String.valueOf(updatedQuantity));
 
                 } while (c.moveToNext());
             }
 
             c.close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    public void deleteProduct(String productName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(InventoryContract.InventoryEntry.TABLE,
+                InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
+                new String[]{productName});
+        db.close();
+    }
 }

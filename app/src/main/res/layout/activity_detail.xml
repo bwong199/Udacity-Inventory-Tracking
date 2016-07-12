@@ -25,7 +25,8 @@
         android:layout_marginTop="91dp"
         android:hint="Enter Quantity Change"
         android:layout_below="@+id/productTV" android:layout_alignRight="@+id/productTV"
-        android:layout_alignEnd="@+id/productTV"/>
+        android:layout_alignEnd="@+id/productTV" android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
