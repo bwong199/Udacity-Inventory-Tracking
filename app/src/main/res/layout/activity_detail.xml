@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/editQuantityText"
         android:layout_marginTop="91dp"
         android:hint="Enter Quantity Change"
         android:layout_below="@+id/productTV" android:layout_alignRight="@+id/productTV"
@@ -39,19 +39,19 @@
         android:layout_height="wrap_content"
         android:text="Edit Quantity"
         android:id="@+id/editQuantBtn"
-        android:layout_alignBottom="@+id/editText"
+        android:layout_alignBottom="@+id/editQuantityText"
         android:layout_toEndOf="@+id/productTV" android:layout_toRightOf="@+id/productTV"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Product"
-        android:id="@+id/deleteProductBtn" android:layout_below="@+id/editText"
-        android:layout_toRightOf="@+id/editText" android:layout_toEndOf="@+id/editText"
+        android:id="@+id/deleteProductBtn" android:layout_below="@+id/editQuantityText"
+        android:layout_toRightOf="@+id/editQuantityText" android:layout_toEndOf="@+id/editQuantityText"
         android:layout_marginTop="25dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Order Product"
         android:id="@+id/orderBtn" android:layout_alignTop="@+id/deleteProductBtn"
-        android:layout_alignRight="@+id/editText" android:layout_alignEnd="@+id/editText"/>
+        android:layout_alignRight="@+id/editQuantityText" android:layout_alignEnd="@+id/editQuantityText"/>
 </RelativeLayout>

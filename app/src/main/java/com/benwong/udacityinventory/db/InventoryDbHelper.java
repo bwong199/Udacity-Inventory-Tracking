@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.benwong.udacityinventory.DetailActivity;
 import com.benwong.udacityinventory.Inventory;
 import com.benwong.udacityinventory.MainActivity;
 
@@ -69,7 +70,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateSale(String productName){
+    public void updateSale(String productName, int quantityChange){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -85,20 +86,22 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 do{
                     System.out.println("Update method " + c.getString(productIndex));
                     System.out.println("Update method " + Integer.toString(c.getInt(quantityIndex)));
-                    int updatedFreq = c.getInt(quantityIndex) - 1;
-                    System.out.println("Updated freq " +  updatedFreq);
+                    int updatedQuantity = c.getInt(quantityIndex) + quantityChange;
+                    System.out.println("Updated quantity " +  updatedQuantity);
 //                    String updateScript = "UPDATE " + HabitContract.HabitEntry.TABLE + " SET " + HabitContract.HabitEntry.COL_TASK_HABIT_FREQ  +" = " + updatedFreq + " WHERE " + HabitContract.HabitEntry.COL_TASK_HABIT_NAME +  " = "  + "'" +  c.getString(habitIndex)  + "'";
 //                    System.out.println(updateScript);
 //                    db.execSQL(updateScript);
+                    if(c.getInt(quantityIndex) > 0){
+                        ContentValues values = new ContentValues();
+                        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, c.getString(productIndex));
+                        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE,  c.getString(priceIndex));
+                        values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY, updatedQuantity);
 
-                    ContentValues values = new ContentValues();
-                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME, c.getString(productIndex));
-                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE,  c.getString(priceIndex));
-                    values.put(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY, updatedFreq);
+                        db.update(InventoryContract.InventoryEntry.TABLE, values, InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
+                                new String[] { String.valueOf(c.getString(productIndex)) });
+                    }
 
 
-                    db.update(InventoryContract.InventoryEntry.TABLE, values, InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = ?",
-                            new String[] { String.valueOf(c.getString(productIndex)) });
 
 //                    System.out.println("UPDATE habits SET" + " frequency = " + updatedFreq + " WHERE habit = "  + "'" +  c.getString(habitIndex)  + "'");
 
@@ -150,6 +153,41 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void readSingleProduct(String productName){
+
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            System.out.println("Update method habit name " + productName);
+            Cursor c = db.rawQuery("SELECT * FROM "  + InventoryContract.InventoryEntry.TABLE +" WHERE " +  InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME + " = " + "'" + productName + "'" , null);
+
+            int productIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_NAME);
+            int priceIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_PRICE);
+            int quantityIndex = c.getColumnIndex(InventoryContract.InventoryEntry.COL_TASK_PRODUCT_QUANTITY);
+
+            if (c != null && c.moveToFirst()) {
+                do {
+                    System.out.println("READ single product " + c.getString(productIndex));
+                    System.out.println("READ single price " + Integer.toString(c.getInt(priceIndex)));
+                    System.out.println("READ single quantity " + Integer.toString(c.getInt(quantityIndex)));
+                    String singleProduct = c.getString(productIndex) + " : " + Integer.toString(c.getInt(priceIndex)) + " - " + Integer.toString(c.getInt(quantityIndex));
+
+
+                    int updatedQuantity = Integer.parseInt(String.valueOf(c.getInt(quantityIndex)));
+
+                    DetailActivity.quantityTV.setText(String.valueOf(updatedQuantity));
+
+                } while (c.moveToNext());
+            }
+
+            c.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

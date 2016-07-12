@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, inventoryList);
 
-
+        inventoryList.clear();
+        inventoryListName.clear();
         getFromDB();
 
         for(Inventory x: inventoryList){

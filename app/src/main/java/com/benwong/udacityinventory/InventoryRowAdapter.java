@@ -47,7 +47,7 @@ public class InventoryRowAdapter extends ArrayAdapter<Inventory> {
                     System.out.println(inventoryItem.getProduct());
                     mHelper = new InventoryDbHelper(getContext());
 
-                    mHelper.updateSale(inventoryItem.getProduct());
+                    mHelper.updateSale(inventoryItem.getProduct(), -1);
 
                     try {
                         MainActivity.getFromDB();
